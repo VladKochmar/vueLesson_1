@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="css/style.css">
+   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+   <title>Завдання 4</title>
+</head>
+
+<body>
+   <div id="app">
+      <div class="block">
+         <div class="block__container">
+            <div class="bank">
+               <div class="bank__sum">Сума на рахунку: <span :class="textColor">{{ showedBalance }}</span> грн.</div>
+               <div class="bank__actions">
+                  <div class="bank__action">
+                     <label class="label">
+                        Зарахувати на рахунок:
+                        <input type="number" class="input" v-model="incrAmount">
+                     </label>
+                     <button type="button" class="button" @click="addMoney">Зарахувати</button>
+                  </div>
+                  <div class="bank__action">
+                     <label class="label">
+                        Зняти з рахунку:
+                        <input type="number" class="input" v-model="decrAmount">
+                     </label>
+                     <button type="button" class="button" @click="receiveMoney">Зняти</button>
+                  </div>
+               </div>
+               <div class="bank__percent">Відсотки за обслуговування: {{ tax }} грн.</div>
+               <div class="bank__rates">
+                  <div class="bank__rate">Сума у доларах: ${{ dollarBalance }}</div>
+                  <div class="bank__rate">Сума у євро: €{{ euroBalance }}</div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <script>
+      const { createApp } = Vue
+
+      const app = createApp({
+         data() {
+            return {
+               balance: 0,
+               showedBalance: 0,
+               euroRate: 38.7,
+               dollarRate: 36.6,
+               incrAmount: null,
+               decrAmount: null,
+               taxPercent: 3,
+               tax: 0,
+               textColor: 'red'
+            }
+         },
+
+         computed: {
+            dollarBalance() {
+               return (this.balance / this.dollarRate).toFixed(2)
+            },
+
+            euroBalance() {
+               return (this.balance / this.euroRate).toFixed(2)
+            },
+         },
+
+         methods: {
+            getTax(money) {
+               return money / 100 * this.taxPercent
+            },
+
+            doFixed() {
+               this.showedBalance = this.balance.toFixed(2)
+               this.tax = this.tax.toFixed(2)
+            },
+
+            addMoney() {
+               if (this.incrAmount > 0) {
+                  this.tax = this.getTax(this.incrAmount)
+                  this.balance += (this.incrAmount - this.tax)
+                  this.doFixed()
+                  if (this.balance >= 100) this.textColor = 'green'
+               }
+            },
+
+            receiveMoney() {
+               const tempTax = this.getTax(this.decrAmount)
+               const recievedSum = this.decrAmount + tempTax
+
+               if (recievedSum <= this.balance) {
+                  this.balance -= recievedSum
+                  this.tax = tempTax
+                  this.doFixed()
+                  this.textColor = 'red'
+               }
+            }
+         }
+      })
+
+      app.mount('#app')
+   </script>
+</body>
+
+</html>

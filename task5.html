@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="css/style.css">
+   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+   <title>Завдання 5</title>
+</head>
+
+<body>
+   <div id="app">
+      <div class="block">
+         <div class="block__container">
+            <div class="login">
+               <div class="result">{{ status }}</div>
+               <label class="label">
+                  Login: <input type="email" class="input" v-model.lazy="userEmail">
+               </label>
+               <label class="label">
+                  Password: <input type="password" class="input" v-model.lazy="userPassword">
+               </label>
+               <button type="button" class="button" @click="checkLogin">Go</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <script>
+      const { createApp } = Vue
+
+      const loginsList = [{ login: 'ban@na3.com', password: 'qwert' }, { login: 'user@pro.com', password: '12345' }, { login: 'noban@na.com', password: 'qwerty' }]
+
+      const app = createApp({
+         data() {
+            return {
+               userEmail: null,
+               userPassword: null,
+               status: null,
+            }
+         },
+
+         methods: {
+            checkLogin() {
+               const founded = loginsList.find(elem => elem.login === this.userEmail && elem.password === this.userPassword)
+
+               if (founded !== undefined) this.status = 'Ви авторизовані'
+               else this.status = 'Логін або пароль невірні'
+            }
+         }
+      })
+
+      app.mount('#app')
+   </script>
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="css/style.css">
+   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+   <title>Завдання 3</title>
+</head>
+
+<body>
+   <div id="app">
+      <div class="block">
+         <div class="block__container">
+            <div class="block__random">
+               <label class="label">
+                  Початок:
+                  <input type="number" class="input" v-model="minNum">
+               </label>
+               <label class="label">
+                  Кінець:
+                  <input type="number" class="input" v-model="maxNum">
+               </label>
+               <button type="button" class="button" @click="getRandomNum">Отримати випадкове число</button>
+            </div>
+            <div class="result">Випадкове число: <span>{{ randomNum }}</span></div>
+         </div>
+      </div>
+   </div>
+   <script>
+      const { createApp } = Vue
+
+      const app = createApp({
+         data() {
+            return {
+               minNum: null,
+               maxNum: null,
+               randomNum: null,
+            }
+         },
+
+         methods: {
+            getRandomNum() {
+               this.randomNum = Math.floor(Math.random() * (this.maxNum - this.minNum + 1) + this.minNum)
+            }
+         }
+      })
+
+      app.mount('#app')
+   </script>
+</body>
+
+</html>

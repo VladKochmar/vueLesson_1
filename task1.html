@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="css/style.css">
+   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+   <title>Завдання 1</title>
+</head>
+
+<body>
+   <div id="app">
+      <div class="block">
+         <div class="block__container">
+            <label class="label">
+               Пасажири:
+               <input type="number" placeholder="Введіть кількість пасажирів" class="input" v-model="passengersNum">
+            </label>
+            <dl>
+               <dt>Автобуси</dt>
+               <dd>{{ busesSum }}</dd>
+               <dt>Вода</dt>
+               <dd>{{ bottlesSum }}</dd>
+               <dt>Бутерброди</dt>
+               <dd>{{ sandwichesSum }}</dd>
+            </dl>
+         </div>
+      </div>
+   </div>
+   <script>
+      const { createApp } = Vue
+
+      const bottlesPerPerson = 2, sandwichesPerPerson = 3, maxSeats = 20
+
+      const app = createApp({
+         data() {
+            return {
+               passengersNum: null,
+            }
+         },
+
+         computed: {
+            busesSum() {
+               return Math.ceil(this.passengersNum / maxSeats)
+            },
+
+            bottlesSum() {
+               return this.passengersNum * bottlesPerPerson
+            },
+
+            sandwichesSum() {
+               return this.passengersNum * sandwichesPerPerson
+            }
+         }
+      })
+
+      app.mount('#app')
+   </script>
+</body>
+
+</html>

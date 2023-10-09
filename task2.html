@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="css/style.css">
+   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+   <title>Завдання 2</title>
+</head>
+
+<body>
+   <div id="app">
+      <div class="block">
+         <div class="block__container">
+            <label class="label">
+               Місяць:
+               <input type="number" placeholder="Введіть місяць (1-12)" class="input" v-model.lazy="monthNum">
+            </label>
+            <div class="info">
+               <span>Одяг: {{ selectedClothes }}</span>
+               <img :src="selectedImage" alt="ліс">
+            </div>
+         </div>
+      </div>
+   </div>
+   <script>
+      const { createApp } = Vue
+
+      const clothesList = ['пальто', 'куртка', 'шорти', 'дощовик'],
+         imgList = ['img/winter.jpg', 'img/spring.jpg', 'img/summer.jpg', 'img/autumn.jpg', 'img/nodata.jpg']
+
+      const app = createApp({
+         data() {
+            return {
+               monthNum: undefined,
+            }
+         },
+
+         computed: {
+            currentSeason() {
+               if (this.monthNum > 0) {
+                  if (this.monthNum == 12 || this.monthNum < 3) return 'winter'
+                  else if (this.monthNum < 6) return 'spring'
+                  else if (this.monthNum < 9) return 'summer'
+                  else if (this.monthNum < 12) return 'autumn'
+               }
+               return null
+            },
+
+            selectedClothes() {
+               if (this.currentSeason === 'winter') return clothesList[0]
+               else if (this.currentSeason === 'spring') return clothesList[1]
+               else if (this.currentSeason === 'summer') return clothesList[2]
+               else if (this.currentSeason === 'autumn') return clothesList[3]
+               return null
+            },
+
+            selectedImage() {
+               if (this.currentSeason === 'winter') return imgList[0]
+               else if (this.currentSeason === 'spring') return imgList[1]
+               else if (this.currentSeason === 'summer') return imgList[2]
+               else if (this.currentSeason === 'autumn') return imgList[3]
+               return imgList[4]
+            }
+         }
+      })
+
+      app.mount('#app')
+   </script>
+</body>
+
+</html>
